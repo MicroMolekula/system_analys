@@ -5,7 +5,16 @@
     <title>Выбор ЛР</title>
 </head>
 <body>
-    <h>Выбор ЛР</h>
-    <a href="lab1/lr1.php">Лабораторная работа №1</a>
+    <div style="
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        margin-inline: auto;
+        align-items: center;
+        margin-top: 5%;
+    ">
+        <h>Выбор ЛР</h>
+        <a href="lab1/lr1.php">Лабораторная работа №1</a>
+    </div>
 </body>
 </html>
