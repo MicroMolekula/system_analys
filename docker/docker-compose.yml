@@ -7,10 +7,10 @@ services:
       - "888:80"
     volumes:
       - "./nginx:/etc/nginx/conf.d"
-      - "..:/var/www/html"
+      - "../app:/var/www/html"
     links:
       - php
   php:
     build: php
     volumes:
-      - "..:/var/www/html"
+      - "../app:/var/www/html"
