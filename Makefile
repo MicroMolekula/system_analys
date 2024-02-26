@@ -10,3 +10,5 @@ ps:
 	docker-compose -f docker/docker-compose.yml ps $(c)
 php-shell:
 	docker-compose -f docker/docker-compose.yml exec -it php bash $(c)
+nginx-shell:
+	docker-compose -f docker/docker-compose.yml exec -it nginx bash $(c)
