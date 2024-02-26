@@ -21,6 +21,7 @@
     </canvas><br>
     <button id="drawNode">Нарисовать Вершину</button>
     <button id="drawLink">Соединить Вершины</button>
+    <button id="btnGraph">Вывести граф</button>
     <script src="js/script.js">
         /*$(document).ready(function () {
             $("form").on('submit', function (event){
