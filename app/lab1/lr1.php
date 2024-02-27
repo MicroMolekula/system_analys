@@ -2,33 +2,37 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
-    <!--<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-            crossorigin="anonymous"></script>
-    </script> -->
+    <title>ЛР1</title>
+    <style>
+        table, th, td {
+            border: 0;
+        }
+        td {
+            padding: 7px;
+        }
+        .node {
+            border-right: 1px solid black;
+        }
+    </style>
 </head>
 <body>
-    <!--<form method="post">
-        <input type="text" id="name" name="name"><br>
-        <input type="text" id="surname" name="surname">
-        <input type="submit" value="Submit">
-    </form>-->
-    <canvas id="canv"
-            width="800"
-            height="600"
-            style="border: 1px solid black;">
-    </canvas><br>
-    <button id="drawNode">Нарисовать Вершину</button>
-    <button id="drawLink">Соединить Вершины</button>
-    <button id="btnGraph">Вывести граф</button>
+    <div class="main" style="display: flex; flex-direction: row">
+        <div class="canvas">
+            <canvas id="canv"
+                    width="800"
+                    height="600"
+                    style="border: 1px solid black;">
+            </canvas><br>
+            <button id="drawNode">Нарисовать Вершину</button>
+            <button id="drawLink">Соединить Вершины</button><br><br>
+            <button id="btnGL">Вывести множество левых инциденций</button>
+            <button id="btnGR">Вывести множество правых инциденций</button>
+            <button id="btnB">Вывести матрицу инциденций</button>
+        </div>
+        <div class="output" id="out" style="margin-left: 50px;">
+        </div>
+    </div>
     <script src="js/script.js">
-        /*$(document).ready(function () {
-            $("form").on('submit', function (event){
-                event.preventDefault();
-                $.post( "form.php", {name: $("#name").val(), surname: $("#surname").val()});
-            });
-        });*/
     </script>
 </body>
 </html>

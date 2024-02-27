@@ -1,7 +1,10 @@
 const canvas = document.getElementById("canv");
 const btnNode = document.getElementById("drawNode");
 const btnLink = document.getElementById("drawLink");
-const btnGraph = document.getElementById("btnGraph");
+const btnGL = document.getElementById("btnGL");
+const btnGR = document.getElementById("btnGR");
+const btnB = document.getElementById("btnB");
+const divOut = document.getElementById("out");
 const context = canvas.getContext("2d");
 let mouse = {x: -1, y: -1};
 let countNode = 1;
@@ -198,12 +201,62 @@ btnLink.addEventListener("click", function (){
     drawNode = false;
 });
 
-btnGraph.addEventListener("click", function (){
+btnGL.addEventListener("click", function (){
    graph = new Graph(nodes, links);
-   console.log(graph);
    console.log("GL", graph.initGL());
-   console.log("GR", graph.initGR());
-   console.log("B", graph.initB());
+   let divGL = document.createElement('div');
+   divGL.className = 'GL';
+   divGL.innerHTML = "<p><b>GL:</b></p>";
+   for (let i = 0; i < graph.GL.length; i++){
+       let tmp = `<p>GL(${i+1}) = (`;
+       for (let j = 0; j < graph.GL[i].length; j++){
+            tmp += graph.GL[i].length - 1 !== j ? `${graph.GL[i][j]},` : `${graph.GL[i][j]}`;
+       }
+       tmp += `)</p>`;
+       divGL.innerHTML += tmp;
+   }
+   divOut.appendChild(divGL);
+});
+
+btnGR.addEventListener("click", function (){
+    if (graph != null){
+        console.log("GR", graph.initGR());
+        let divGR = document.createElement('div');
+        divGR.className = 'GR';
+        divGR.innerHTML = "<p><b>GR:</b></p>";
+        for (let i = 0; i < graph.GR.length; i++){
+            let tmp = `<p>GR(${i+1}) = (`;
+            for (let j = 0; j < graph.GR[i].length; j++){
+                tmp += graph.GR[i].length - 1 !== j ? `${graph.GR[i][j]},` : `${graph.GR[i][j]}`;
+            }
+            tmp += `)</p>`;
+            divGR.innerHTML += tmp;
+        }
+        divOut.appendChild(divGR);
+    }
+});
+
+btnB.addEventListener("click", function (){
+    if (graph != null){
+        console.log("B", graph.initB());
+        let divB = document.createElement('div');
+        divB.className = 'B';
+        divB.innerHTML = `<p><b>B:</b></p>`;
+        let tmp = "";
+        tmp += '<math><mtable>';
+        for (let i = 0; i < graph.B.length; i++) {
+            tmp += '<mtr>';
+            tmp += `<mtd class="node">${i+1}</mtd>`;
+            for (let j = 0; j < graph.B[i].length; j++){
+                tmp += `<mtd>${graph.B[i][j]}</mtd>`;
+            }
+            tmp += '</mtr>';
+        }
+        tmp += '</mtable></math>';
+        divB.innerHTML += tmp;
+        console.log(divB.innerHTML);
+        divOut.appendChild(divB);
+    }
 });
 
 canvas.addEventListener("click", function (event){
