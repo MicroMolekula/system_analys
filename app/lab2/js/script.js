@@ -3,7 +3,7 @@ const btnNode = document.getElementById("drawNode");
 const btnLink = document.getElementById("drawLink");
 const btnGL = document.getElementById("btnGL");
 const btnGR = document.getElementById("btnGR");
-const btnB = document.getElementById("btnB");
+const btnSortLevel = document.getElementById("sortLevel");
 const divOut = document.getElementById("out");
 const context = canvas.getContext("2d");
 let mouse = {x: -1, y: -1};
@@ -28,33 +28,71 @@ class Graph {
     }
 
     sortLevel(){
-        if(this.GL !== undefined) {
-            let tmpArr = this.GL;
-            let countNewNum = 1;
-            for(let i = 0; i < tmpArr.length; i++){
-                if(tmpArr[i].length === 0){
-                    this.nodes[i].newNum = countNewNum;
+        if(this.GL === undefined) {
+            this.initGL();
+        }
+        let tmpGL = Object.assign({}, this.GL);
+        let countNewNum = 1;
+        while (Object.keys(tmpGL).length !== 0){
+            let level = [];
+            for (let key in tmpGL){
+                if(tmpGL[key].length === 0){
+                    this.nodes[Number(key)].newNum = countNewNum;
                     countNewNum++;
-                    tmpArr.splice(i);
-                    for(let j = 0; j < tmpArr.length; j++){
-                        for(let k = 0; k < tmpArr[j].length; k++){
-                            if(tmpArr[j][k] === (i+1)){
-                                tmpArr[j].splice(k);
+                    delete tmpGL[key];
+                    for (let node in tmpGL){
+                        for(let i = 0; i < tmpGL[node].length; i++){
+                            if(tmpGL[node][i] === (Number(key)+1)){
+                                tmpGL[node].splice(i, 1);
                             }
                         }
                     }
                 }
             }
-            console.log(this.nodes);
+        }
+        console.log(this.GL);
+    }
+
+    sortNodes(){
+        for (let j = this.nodes.length - 1; j > 0; j--) {
+            for (let i = 0; i < j; i++) {
+                if (this.nodes[i].num > this.nodes[i + 1].num) {
+                    let temp = this.nodes[i];
+                    this.nodes[i] = this.nodes[i + 1];
+                    this.nodes[i + 1] = temp;
+                }
+            }
+        }
+    }
+
+    reinitGraph(){
+        for(let k = 0; k < this.nodes.length; k++){
+            let tmp = this.nodes[k].num;
+            this.nodes[k].num = this.nodes[k].newNum;
+            this.nodes[k].newNum = tmp;
+        }
+    }
+
+    reprintGraph(){
+        context.fillStyle = '#ffffff';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = '#000000';
+        for(let i = 0; i < this.nodes.length; i++){
+            let nodePath = this.nodes[i].createPath();
+            context.stroke(nodePath);
+        }
+        for(let j = 0; j < this.links.length; j++){
+            let linkPath = this.links[j].createPath();
+            context.stroke(linkPath);
         }
     }
 
     initGL() {
         this.GL = [];
-        for (let i = 0; i < nodes.length; i++){
+        for (let i = 0; i < this.nodes.length; i++){
             let tmp = [];
-            for (let j = 0; j < links.length; j++){
-                if (this.nodes[i].num === this.links[j].nodeEnd.num){
+            for (let j = 0; j < this.links.length; j++){
+                if (this.nodes[i] === this.links[j].nodeEnd){
                     tmp.push(this.links[j].nodeStart.num);
                 }
             }
@@ -225,8 +263,11 @@ btnLink.addEventListener("click", function (){
 });
 
 btnGL.addEventListener("click", function (){
-    graph = new Graph(nodes, links);
-    console.log("GL", graph.initGL());
+    if(graph === null){
+        graph = new Graph(nodes, links);
+    }
+    graph.initGL();
+    console.log(graph);
     let divGL = document.createElement('div');
     divGL.className = 'GL';
     divGL.innerHTML = "<p><b>GL:</b></p>";
@@ -239,7 +280,6 @@ btnGL.addEventListener("click", function (){
         divGL.innerHTML += tmp;
     }
     divOut.appendChild(divGL);
-    graph.sortLevel();
 });
 
 btnGR.addEventListener("click", function (){
@@ -260,27 +300,15 @@ btnGR.addEventListener("click", function (){
     }
 });
 
-btnB.addEventListener("click", function (){
-    if (graph != null){
-        console.log("B", graph.initB());
-        let divB = document.createElement('div');
-        divB.className = 'B';
-        divB.innerHTML = `<p><b>B:</b></p>`;
-        let tmp = "";
-        tmp += '<math><mtable>';
-        for (let i = 0; i < graph.B.length; i++) {
-            tmp += '<mtr>';
-            tmp += `<mtd class="node">${i+1}</mtd>`;
-            for (let j = 0; j < graph.B[i].length; j++){
-                tmp += `<mtd>${graph.B[i][j]}</mtd>`;
-            }
-            tmp += '</mtr>';
-        }
-        tmp += '</mtable></math>';
-        divB.innerHTML += tmp;
-        console.log(divB.innerHTML);
-        divOut.appendChild(divB);
+btnSortLevel.addEventListener("click", function (){
+    if(graph === null){
+        graph = new Graph(nodes, links);
     }
+    graph.sortLevel();
+    graph.reinitGraph();
+    graph.reprintGraph();
+    graph.sortNodes();
+    console.log(graph);
 });
 
 canvas.addEventListener("click", function (event){

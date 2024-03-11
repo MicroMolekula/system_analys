@@ -26,8 +26,8 @@
         <button id="drawNode">Нарисовать Вершину</button>
         <button id="drawLink">Соединить Вершины</button><br><br>
         <button id="btnGL">Вывести множество левых инциденций</button>
+        <button id="sortLevel">Перестроить граф</button>
         <button id="btnGR">Вывести множество правых инциденций</button>
-        <button id="btnB">Вывести матрицу инциденций</button>
     </div>
     <div class="output" id="out" style="margin-left: 50px;">
     </div>
