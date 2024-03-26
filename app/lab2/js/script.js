@@ -140,6 +140,33 @@ class Graph {
         }
     }
 
+    printLevels() {
+        let divLevels = document.createElement('div');
+        divLevels.className = 'Levels';
+        divLevels.innerHTML = "<p><b>Уровни:</b></p>";
+        for (let i = 0; i < this.levelMas.length; i++){
+            let tmp = `<p>${i+1} = (`;
+            for (let j = 0; j < this.levelMas[i].length; j++){
+                tmp += this.levelMas[i].length - 1 !== j ? `${this.levelMas[i][j]+1}, ` : `${this.levelMas[i][j]+1}`;
+            }
+            tmp += `)</p>`;
+            divLevels.innerHTML += tmp;
+        }
+        divOut.appendChild(divLevels);
+    }
+
+    printNewNodes(){
+        let divNewNodes = document.createElement('div');
+        divNewNodes.className = 'NewNodes';
+        divNewNodes.innerHTML = "<p><b>Старые: Новые</b></p>";
+        for (let i = 0; i < this.nodes.length; i++){
+            let tmp = `<p>${this.nodes[i].newNum} : ${this.nodes[i].num}`;
+            tmp += `</p>`;
+            divNewNodes.innerHTML += tmp;
+        }
+        divOut.appendChild(divNewNodes);
+    }
+
     initGL() {
         this.GL = [];
         for (let i = 0; i < this.nodes.length; i++){
@@ -288,6 +315,8 @@ class Link {
     }
 }
 
+
+
 function collisionNode(mouse){
     for(let i = 0; i < nodes.length; i++){
         if(mouse.x <= nodes[i].x + nodeR && mouse.x >= nodes[i].x - nodeR && mouse.y <= nodes[i].y + nodeR && mouse.y >= nodes[i].y - nodeR){
@@ -361,6 +390,8 @@ btnSortLevel.addEventListener("click", function (){
     graph.reinitGraph();
     graph.reprintGraph();
     graph.sortNodes();
+    graph.printLevels();
+    graph.printNewNodes();
     console.log(graph);
 });
 
