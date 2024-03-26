@@ -21,36 +21,89 @@ class Graph {
     GL;
     GR;
     B;
+    levelMas;
 
     constructor(nodes, links) {
         this.nodes = nodes;
         this.links = links;
+        this.levelMas = [];
     }
 
     sortLevel(){
         if(this.GL === undefined) {
             this.initGL();
         }
-        let tmpGL = Object.assign({}, this.GL);
-        let countNewNum = 1;
-        while (Object.keys(tmpGL).length !== 0){
-            let level = [];
-            for (let key in tmpGL){
-                if(tmpGL[key].length === 0){
-                    this.nodes[Number(key)].newNum = countNewNum;
-                    countNewNum++;
-                    delete tmpGL[key];
-                    for (let node in tmpGL){
-                        for(let i = 0; i < tmpGL[node].length; i++){
-                            if(tmpGL[node][i] === (Number(key)+1)){
-                                tmpGL[node].splice(i, 1);
-                            }
-                        }
+
+        function glIsEmpty(gl){
+            let flag = true
+            for (let i = 0; i < gl.length; i++){
+                if (gl[i].length !== 0){
+                    flag = false
+                }
+            }
+            return flag
+        }
+
+        let levelMas = this.levelMas;
+        let level = 0;
+        let terminate = false
+        let countNewNum = 1
+        console.log(this.GL)
+        while (true) {
+            levelMas.push([]);
+            for (let nodeI = 0; nodeI < this.GL.length; nodeI++){
+                let flag = false;
+                for (let i = 0; i < level; i++){
+                    if (levelMas[i].includes(nodeI)){
+                        flag = true
+                    }
+                }
+                if (this.GL[nodeI].length === 0 && !flag){
+                    levelMas[level].push(nodeI)
+                    this.nodes[nodeI].newNum = countNewNum
+                    countNewNum++
+                }
+            }
+            console.log("LevelMas:", levelMas)
+            for (let j = 0; j < this.GL.length; j++){
+                for (let k = 0; k < levelMas[level].length; k++){
+                    let findI = this.GL[j].indexOf(levelMas[level][k]+1)
+                    if (findI !== -1){
+                        this.GL[j].splice(findI, 1)
                     }
                 }
             }
+            console.log(this.GL)
+            level += 1
+            if (terminate) {
+                break
+            }
+            if (glIsEmpty(this.GL)){
+                terminate = true
+            }
         }
-        console.log(this.GL);
+        console.log(levelMas);
+        console.log(this.nodes);
+        // let tmpGL = Object.assign({}, this.GL);
+        // let countNewNum = 1;
+        // while (Object.keys(tmpGL).length !== 0){
+        //     let level = [];
+        //     for (let key in tmpGL){
+        //         if(tmpGL[key].length === 0){
+        //             this.nodes[Number(key)].newNum = countNewNum;
+        //             countNewNum++;
+        //             delete tmpGL[key];
+        //             for (let node in tmpGL){
+        //                 for(let i = 0; i < tmpGL[node].length; i++){
+        //                     if(tmpGL[node][i] === (Number(key)+1)){
+        //                         tmpGL[node].splice(i, 1);
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        // console.log(this.GL);
     }
 
     sortNodes(){
