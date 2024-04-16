@@ -13,6 +13,9 @@
         .node {
             border-right: 1px solid black;
         }
+        .node1 {
+            border-bottom: 1px solid black;
+        }
     </style>
 </head>
 <body>

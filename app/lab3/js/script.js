@@ -143,9 +143,6 @@ class Graph {
                 }
             }
             let intersection = [...new Set(R)].filter(value => Q.includes(value));
-                console.log("R", R);
-                console.log("Q", Q);
-                console.log("Inter", intersection);
                 this.subGraph.push(intersection);
                 for (let i = 0; i < intersection.length; i++){
                     let index = notUsedV.indexOf(intersection[i]);
@@ -155,16 +152,31 @@ class Graph {
                 }
         }
 
-        console.log(this.subGraph);
 
     }
 
     initA(){
-        if (this.GL === undefined) {
-            return;
+        this.initGL();
+        this.initGR();
+        let A = [];
+        for (let i = 0; i < this.subGraph.length; i++){
+            let tmpArr = Array(this.subGraph.length).fill(0);
+            for(let k = 0; k < this.subGraph.length; k++){
+                if(i === k) continue;
+                let tmp = this.subGraph;
+                let gr = this.GR;
+                tmp[i].forEach(function (node1) {
+                    tmp[k].forEach(function (node2){
+                        if((gr[node1].indexOf(node2+1) !== -1) && tmpArr[k] === 0){
+                            tmpArr[k] += 1;
+                        }
+                    })
+                });
+            }
+            A.push(tmpArr);
         }
-        console.log(this.GL);
-
+        console.log(A);
+        this.A = A;
     }
 }
 
@@ -316,6 +328,30 @@ btnSubGraph.addEventListener("click", function (){
         divSubGraph.innerHTML += tmp;
     }
     divOut.appendChild(divSubGraph);
+    graph.initA();
+    let divA = document.createElement('div');
+    divA.className = 'A';
+    divA.innerHTML = `<p><b>A:</b></p>`;
+    let tmp = "";
+    tmp += '<math><mtable>';
+    tmp += '<mtr>';
+    for (let k = 0; k <= graph.A.length; k++){
+        if(k === 0) tmp += `<mtd class="node1"></mtd>`;
+        else tmp += `<mtd class="node1">G${k}</mtd>`;
+    }
+    tmp += '</mtr>';
+    for (let i = 0; i < graph.A.length; i++) {
+        tmp += '<mtr>';
+        tmp += `<mtd class="node">G${i+1}</mtd>`;
+
+        for (let j = 0; j < graph.A[i].length; j++){
+            tmp += `<mtd>${graph.A[i][j]}</mtd>`;
+        }
+        tmp += '</mtr>';
+    }
+    tmp += '</mtable></math>';
+    divA.innerHTML += tmp;
+    divOut.appendChild(divA);
 });
 
 
