@@ -110,8 +110,6 @@ class Graph {
         for (let i = 0; i < countV; i++){
             notUsedV.push(i);
         }
-        console.log(this.links);
-
         while(notUsedV.length > 0){
             let R = [];
             R.push(notUsedV[0]);
@@ -143,9 +141,6 @@ class Graph {
                 }
             }
             let intersection = [...new Set(R)].filter(value => Q.includes(value));
-                console.log("R", R);
-                console.log("Q", Q);
-                console.log("Inter", intersection);
                 this.subGraph.push(intersection);
                 for (let i = 0; i < intersection.length; i++){
                     let index = notUsedV.indexOf(intersection[i]);
@@ -160,11 +155,7 @@ class Graph {
     }
 
     initA(){
-        if (this.GL === undefined) {
-            return;
-        }
-        console.log(this.GL);
-
+        
     }
 }
 
