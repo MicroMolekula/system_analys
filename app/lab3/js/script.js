@@ -110,8 +110,6 @@ class Graph {
         for (let i = 0; i < countV; i++){
             notUsedV.push(i);
         }
-        console.log(this.links);
-
         while(notUsedV.length > 0){
             let R = [];
             R.push(notUsedV[0]);
@@ -156,6 +154,7 @@ class Graph {
     }
 
     initA(){
+
         this.initGL();
         this.initGR();
         let A = [];
