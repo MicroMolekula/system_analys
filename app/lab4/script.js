@@ -6,7 +6,6 @@ let D = [];
 
 btnAdd.addEventListener("click", function() {
     size += 1;
-    console.log(matrix.childNodes[1].childNodes);
     matrix.childNodes[1].childNodes.forEach(function(el){
         if(el.nodeName !== '#text' && el.id !== "htop"){
             let td = document.createElement("td");
@@ -18,7 +17,8 @@ btnAdd.addEventListener("click", function() {
         }
         if(el.id === "htop"){
             let td = document.createElement("td");
-            td.className = "htop";
+            td.className = `htop`;
+            td.id = `${size}`
             td.textContent = `${size}`;
             el.appendChild(td);
         }
@@ -54,3 +54,25 @@ btnMain.addEventListener("click", function(){
     console.log(D);
 });
 
+btnDelete.addEventListener("click", function(){
+    matrix.childNodes[1].childNodes.forEach(function(el){
+        if(el.nodeName !== '#text' && el.id !== "htop"){
+            for(let i = 1; i < el.children.length; i++){
+                if(el.children[i].children[0].id[2] == size){
+                    el.children[i].remove();
+                }
+            }
+        }
+        if(el.id === `r${size}`){
+            el.remove();
+        }
+        if(el.id === "htop") {
+            for(let i = 1; i < el.children.length; i++){
+                if(el.children[i].id === `${size}`){
+                    el.children[i].remove();
+                }
+            }
+        }
+    });
+    size = size === 0 ? size = 0 : size - 1;
+});
