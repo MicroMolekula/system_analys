@@ -154,7 +154,6 @@ class Graph {
     }
 
     initA(){
-
         this.initGL();
         this.initGR();
         let A = [];
