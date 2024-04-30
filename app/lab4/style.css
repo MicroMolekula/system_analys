@@ -1,6 +1,6 @@
 main {
     margin-top: 3rem;
-    width: 70%;
+    width: 50%;
     margin-inline: auto;
 }
 
@@ -35,4 +35,17 @@ table input {
 #btnMain {
     width: 100%;
     margin-top: 5rem;
+}
+
+.node {
+    border-right: 1px solid black;
+}
+.node1 {
+    border-bottom: 1px solid black;
+}
+
+.main-output {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
