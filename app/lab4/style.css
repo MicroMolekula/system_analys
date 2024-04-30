@@ -1,0 +1,51 @@
+main {
+    margin-top: 3rem;
+    width: 50%;
+    margin-inline: auto;
+}
+
+.btns {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.btns button {
+    width: 100%;
+}
+
+input {
+    width: 2rem;
+}
+
+table {
+    margin-top: 1rem;
+    margin-inline: auto;
+}
+
+.htop {
+    text-align: center;
+}
+
+table input {
+    text-align: center;
+}
+
+#btnMain {
+    width: 100%;
+    margin-top: 5rem;
+}
+
+.node {
+    border-right: 1px solid black;
+}
+.node1 {
+    border-bottom: 1px solid black;
+}
+
+.main-output {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
